@@ -1,19 +1,23 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/zhangtao25/mangostreetSerGin/routers"
-	"github.com/zhangtao25/mangostreetSerGin/models"
 )
 
 
-func init() {
-	models.Setup()
-}
-
-
 func main() {
-	r := routers.InitRouter()
 
-	// 默认启动的是 8080端口，也可以自己定义启动端口
-	r.Run(":3000")
+	routers.C()
+
+
+
+
+
+	r := gin.Default()
+
+	r.GET("/user/:title", routers.GetNote)
+
+
+	r.Run(":8080")
 }
