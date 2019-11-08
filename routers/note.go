@@ -1,38 +1,27 @@
 package routers
 
 import (
-	"fmt"
+	"github.com/zhangtao25/mangostreetSerGin/service/note_service"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
+	_ "github.com/go-sql-driver/mysql"
 )
-
-var db *gorm.DB
-
-func C()  {
-	var err error
-	db, err = gorm.Open("mysql", "root:wjyy26303@tcp(114.55.145.3:3306)/test?charset=utf8")
-	if err != nil {
-		panic("连接数据库失败")
-	}
-	defer db.Close()
-}
-
 
 
 func GetNote(c *gin.Context) {
-
-
 	title := c.Param("title")
 
-	type Note struct {
-		Id   int
-		Title string
-	}
-	var notes []Note
-	db.Where("title = ?", title).Find(&notes)
-	fmt.Println(title,notes)
+	noteService := note_service.Note{Title: title}
+	note, err := noteService.Get()
 
+
+	if err != nil {
+		c.JSON(200,gin.H{
+			"data":"err",
+		})
+		return
+	}
 	c.JSON(200,gin.H{
-		"data": notes,
+		"data":note,
 	})
+	return
 }
