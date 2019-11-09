@@ -1,4 +1,4 @@
-package routers
+package api
 
 import (
 	"github.com/zhangtao25/mangostreetSerGin/service/note_service"
